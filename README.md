@@ -1,5 +1,9 @@
 # DLP: Digital Legacy Protocol
 
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 *A Mindsurance Hackathon Prototype*
 
 **DLP is a full-stack web application that allows users to create a "Digital Will" for their posthumous AI avatar, securing their digital identity after they're gone.**
