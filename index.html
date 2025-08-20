@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindsurance: Digital Legacy Protocol</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Mindsurance: Digital Legacy Protocol</h1>
+
+        <details id="step1-details" open>
+            <summary>Step 1: Connect Your Legacy</summary>
+            <div class="content"><div class="content-inner">
+                <p>Simulate connecting your digital accounts to create a cognitive baseline. No real data will be accessed.</p>
+                <div class="connect-buttons">
+                    <button>Connect Google</button>
+                    <button>Connect Meta</button>
+                    <button>Connect X (Twitter)</button>
+                </div>
+                <p id="connect-status"></p>
+            </div></div>
+        </details>
+        
+        <details id="step2-details">
+            <summary>Step 2: Define Your Avatar's Rules</summary>
+            <div class="content"><div class="content-inner">
+                 <div class="form-group"><label>Interaction Level:</label><div class="options-grid"><div class="option"><label><input type="radio" name="interaction_level" value="read_only">Read-Only Memorial</label></div><div class="option"><label><input type="radio" name="interaction_level" value="interactive" checked>Interactive Chatbot</label></div><div class="option"><label><input type="radio" name="interaction_level" value="autonomous">Autonomous Agent</label></div></div></div>
+                 <div class="form-group"><label>Permitted Topics:</label><div class="options-grid"><div class="option"><label><input type="checkbox" name="topic" value="family_memories" checked>Share Family Memories</label></div><div class="option"><label><input type="checkbox" name="topic" value="professional_achievements" checked>Discuss Professional Achievements</label></div><div class="option"><label><input type="checkbox" name="topic" value="political_views">Discuss Political Views</label></div><div class="option"><label><input type="checkbox" name="topic" value="personal_finances">Talk about Personal Finances</label></div></div></div>
+                 <div class="form-group"><label>Commercial Use:</label><div class="options-grid"><div class="option"><label><input type="radio" name="commercial_use" value="prohibited" checked>Prohibited</label></div><div class="option"><label><input type="radio" name="commercial_use" value="permitted">Permitted with Royalties</label></div></div></div>
+                 <div class="form-group"><label for="primary-guardian">Primary Guardian:</label><input type="text" id="primary-guardian" placeholder="Name or Digital ID"></div>
+                 <div class="form-group"><label for="heir-royalties">Heir for Royalties:</label><input type="text" id="heir-royalties" placeholder="e.g., wallet address"></div>
+                 <div class="form-group"><label for="termination-year">Termination Clause:</label><div class="form-group-row"><span>Delete all data in the year:</span><input type="number" id="termination-year" value="2099" style="width:100px;"></div></div>
+                 <button id="mint-button">Secure My Legacy (Mint)</button>
+                 <p id="mint-status"></p>
+            </div></div>
+        </details>
+        
+        <details id="step3-details">
+            <summary>Step 3: Chat with the Avatar</summary>
+            <div class="content"><div class="content-inner">
+                <div class="form-group"><label for="transaction-id">Transaction ID:</label><input type="text" id="transaction-id" placeholder="Will be filled automatically after minting..."></div>
+                <label>Chat History:</label>
+                <div id="chat-display"><p id="status">Mint a Digital Will to begin chatting...</p></div>
+                <label for="user-query">Your Message:</label>
+                <div class="form-group-row"><input type="text" id="user-query" placeholder="Type your message..." style="flex:1;"><button id="send-button">Send</button></div>
+            </div></div>
+        </details>
+        
+        <details id="step4-details">
+             <summary>Transaction Log (Imitation)</summary>
+             <div class="content"><div class="content-inner">
+                 <p>This log simulates an immutable blockchain record. Each time you "mint" a will, a new, unchangeable entry is created here.</p>
+                 <div id="log-display">[Log is empty. Mint a Digital Will to create the first record.]</div>
+             </div></div>
+        </details>
+    </div>
+
+    <script>
+        const connectButtons = document.querySelectorAll('.connect-buttons button'); const connectStatus = document.getElementById('connect-status'); const step1Details = document.getElementById('step1-details'); const step2Details = document.getElementById('step2-details'); const step3Details = document.getElementById('step3-details'); const mintButton = document.getElementById('mint-button'); const mintStatus = document.getElementById('mint-status'); const transactionIdInput = document.getElementById('transaction-id'); const sendButton = document.getElementById('send-button'); const userQueryInput = document.getElementById('user-query'); const chatDisplay = document.getElementById('chat-display'); const logDisplay = document.getElementById('log-display'); let transactionLog = [];
+        function updateLogDisplay() { if (transactionLog.length === 0) { logDisplay.textContent = "[Log is empty. Mint a Digital Will to create the first record.]"; } else { logDisplay.innerHTML = ""; transactionLog.forEach((entry, index) => { const entryElement = document.createElement('div'); entryElement.innerHTML = `<strong>Record #${index + 1}</strong> --- Timestamp: ${entry.timestamp}<br><pre>${entry.data}</pre><hr>`; logDisplay.appendChild(entryElement); }); } }
+        connectButtons.forEach(button => { button.addEventListener('click', () => { connectStatus.textContent = `Analyzing data from ${button.textContent}...`; setTimeout(() => { connectStatus.innerHTML = `<b>Success!</b> We've analyzed 5,430 posts, 12,890 emails, and 1,200 photos. You can now proceed to Step 2.`; step2Details.setAttribute('open', ''); }, 1500); }); });
+        mintButton.addEventListener('click', async () => { const interactionLevel = document.querySelector('input[name="interaction_level"]:checked').value; const commercialUse = document.querySelector('input[name="commercial_use"]:checked').value; const permittedTopics = Array.from(document.querySelectorAll('input[name="topic"]:checked')).map(cb => cb.value); const allTopics = Array.from(document.querySelectorAll('input[name="topic"]')).map(cb => cb.value); const forbiddenTopics = allTopics.filter(topic => !permittedTopics.includes(topic)); const primaryGuardian = document.getElementById('primary-guardian').value; const heirRoyalties = document.getElementById('heir-royalties').value; const terminationYear = document.getElementById('termination-year').value; const requestBody = { user_id: `user-${Math.random().toString(36).substr(2, 9)}`, rules: { interaction_level: interactionLevel, commercial_use: commercialUse, permitted_topics: permittedTopics, forbidden_topics: forbiddenTopics, guardians: { primary: primaryGuardian, heir: heirRoyalties }, termination_clause: `delete_in_year_${terminationYear}` } }; mintStatus.textContent = "Minting... please wait."; try { const response = await fetch('http://127.0.0.1:5000/mint', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(requestBody), }); const data = await response.json(); if (response.ok) { mintStatus.textContent = `Success! Transaction ID created.`; transactionIdInput.value = data.transaction_id; const logEntry = { timestamp: new Date().toISOString(), data: JSON.stringify({ transaction_id: data.transaction_id, rules: requestBody.rules }, null, 2) }; transactionLog.push(logEntry); updateLogDisplay(); step3Details.setAttribute('open', ''); } else { mintStatus.textContent = `Error: ${data.error}`; } } catch (error) { mintStatus.textContent = "Failed to connect to the server."; } });
+        sendButton.addEventListener('click', async () => { const transactionId = transactionIdInput.value; const userQuery = userQueryInput.value; if (!transactionId || !userQuery) { alert("Please mint a will (Step 2) and type a message."); return; } const initialStatus = document.getElementById('status'); if(initialStatus) initialStatus.remove(); const userMessageElement = document.createElement('p'); userMessageElement.className = 'user-message'; userMessageElement.textContent = `You: ${userQuery}`; chatDisplay.appendChild(userMessageElement); const requestBody = { transaction_id: transactionId, query: userQuery }; try { const response = await fetch('http://127.0.0.1:5000/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(requestBody) }); const data = await response.json(); const avatarMessageElement = document.createElement('p'); avatarMessageElement.className = 'avatar-message'; if(response.ok) { avatarMessageElement.textContent = `Avatar: ${data.avatar_response}`; } else { avatarMessageElement.textContent = `System Error: ${data.error}`; } chatDisplay.appendChild(avatarMessageElement); } catch (error) { const errorMessageElement = document.createElement('p'); errorMessageElement.className = 'avatar-message'; errorMessageElement.textContent = "< System Error: Failed to connect to the server."; chatDisplay.appendChild(errorMessageElement); } userQueryInput.value = ''; chatDisplay.scrollTop = chatDisplay.scrollHeight; });
+    </script>
+</body>
+</html>
